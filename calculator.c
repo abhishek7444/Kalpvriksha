@@ -82,7 +82,7 @@ long getAns(char str2[])
 
     for (int i = 0; i < l; i++)
     {
-        if (isOpernad(str[i]))
+        if (isOperand(str[i]))
         {
             num = num * 10 + (str[i] - '0');
             isReadingNum = 1;
