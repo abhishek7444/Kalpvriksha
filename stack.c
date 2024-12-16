@@ -1,33 +1,33 @@
-struct stack
+struct Stack
 {
     int *arr;
     int size;
     int top;
 };
 
-void push(struct stack *st, long ch)
+void push(struct Stack *stack, long ch)
 {
-    if (st->top == st->size - 1)
+    if (stack->top == stack->size - 1)
         return;
-    st->top++;
-    st->arr[st->top] = ch;
+    stack->top++;
+    stack->arr[stack->top] = ch;
 }
 
-void pop(struct stack *st)
+void pop(struct Stack *stack)
 {
-    if (st->top == -1)
+    if (stack->top == -1)
         return;
-    st->top--;
+    stack->top--;
 }
 
-int top(struct stack *st)
+int top(struct Stack *stack)
 {
-    if (st->top == -1)
-        return '\0';
-    return st->arr[st->top];
+    if (stack->top == -1)
+        return 0;
+    return stack->arr[stack->top];
 }
 
-int isEmpty(struct stack *st)
+int isEmpty(struct Stack *stack)
 {
-    return st->top == -1;
+    return stack->top == -1;
 }
