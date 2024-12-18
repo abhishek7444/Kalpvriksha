@@ -11,11 +11,15 @@ bool isOperand(char ch)
 
 int precedence(char ch)
 {
+    int priority = 0;
     if (ch == '*' || ch == '/')
-        return 2;
+        priority = 2;
+    
     if (ch == '+' || ch == '-')
-        return 1;
-    return 0;
+        priority = 1;
+
+    return priority;
+    
 }
 
 char *toPostfix(char *infix)
@@ -26,7 +30,7 @@ char *toPostfix(char *infix)
     struct Stack stack;
     stack.top = -1;
     stack.size = sizeOfInfixString;
-    stack.arr = (int *)malloc(sizeOfInfixString * sizeof(int));
+    stack.arr = (char *)malloc(sizeOfInfixString * sizeof(char));
 
     int infixIndex = 0, postfixIndex = 0;
 
@@ -48,9 +52,9 @@ char *toPostfix(char *infix)
         }
         else
         {
-            while (!isEmpty(&stack) && precedence((char)top(&stack)) >= precedence(infix[infixIndex]))
+            while (!isEmpty(&stack) && precedence(top(&stack)) >= precedence(infix[infixIndex]))
             {
-                postfixString[postfixIndex++] = (char)top(&stack);
+                postfixString[postfixIndex++] = top(&stack);
                 postfixString[postfixIndex++] = ' ';
                 pop(&stack);
             }
@@ -61,7 +65,7 @@ char *toPostfix(char *infix)
 
     while (!isEmpty(&stack))
     {
-        postfixString[postfixIndex++] = (char)top(&stack);
+        postfixString[postfixIndex++] = top(&stack);
         postfixString[postfixIndex++] = ' ';
         pop(&stack);
     }
@@ -83,7 +87,7 @@ int evalPostfixString(char *postfixString)
     int lenOfPostfixString = strlen(postfixString);
     stack.top = -1;
     stack.size = lenOfPostfixString;
-    stack.arr = (int *)malloc(lenOfPostfixString * sizeof(int));
+    stack.arr = (char *)malloc(lenOfPostfixString * sizeof(char));
 
     int postfixIndex = 0;
     int num = 0;
