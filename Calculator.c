@@ -4,9 +4,9 @@
 #include <stdbool.h>
 #include "stack.c"
 
-bool isOperand(char ch)
+bool isOperand(char character)
 {
-    return ch >= '0' && ch <= '9';
+    return character >= '0' && character <= '9';
 }
 
 int precedence(char ch)
@@ -22,50 +22,50 @@ int precedence(char ch)
     
 }
 
-char *toPostfix(char *infix)
+char *toPostfix(char *infixString)
 {
-    int sizeOfInfixString = strlen(infix);
+    int sizeOfInfixString = strlen(infixString);
     char *postfixString = (char *)malloc((2 * sizeOfInfixString + 1) * sizeof(char));
 
     struct Stack stack;
     stack.top = -1;
     stack.size = sizeOfInfixString;
-    stack.arr = (char *)malloc(sizeOfInfixString * sizeof(char));
+    stack.arr = (int *)malloc(sizeOfInfixString * sizeof(int));
 
     int infixIndex = 0, postfixIndex = 0;
 
     while (infixIndex < sizeOfInfixString)
     {
-        if (infix[infixIndex] == ' ')
+        if (infixString[infixIndex] == ' ')
         {
             infixIndex++;
             continue;
         }
 
-        if (isOperand(infix[infixIndex]))
+        if (isOperand(infixString[infixIndex]))
         {
-            while (infixIndex < sizeOfInfixString && isOperand(infix[infixIndex]))
+            while (infixIndex < sizeOfInfixString && isOperand(infixString[infixIndex]))
             {
-                postfixString[postfixIndex++] = infix[infixIndex++];
+                postfixString[postfixIndex++] = infixString[infixIndex++];
             }
             postfixString[postfixIndex++] = ' ';
         }
         else
         {
-            while (!isEmpty(&stack) && precedence(top(&stack)) >= precedence(infix[infixIndex]))
+            while (!isEmpty(&stack) && precedence((char)top(&stack)) >= precedence(infixString[infixIndex]))
             {
-                postfixString[postfixIndex++] = top(&stack);
+                postfixString[postfixIndex++] = (char)top(&stack);
                 postfixString[postfixIndex++] = ' ';
                 pop(&stack);
             }
-            push(&stack, infix[infixIndex]);
+            push(&stack, infixString[infixIndex]);
             infixIndex++;
         }
     }
 
     while (!isEmpty(&stack))
     {
-        postfixString[postfixIndex++] = top(&stack);
+        postfixString[postfixIndex++] = (char)top(&stack);
         postfixString[postfixIndex++] = ' ';
         pop(&stack);
     }
@@ -87,7 +87,7 @@ int evalPostfixString(char *postfixString)
     int lenOfPostfixString = strlen(postfixString);
     stack.top = -1;
     stack.size = lenOfPostfixString;
-    stack.arr = (char *)malloc(lenOfPostfixString * sizeof(char));
+    stack.arr = (int *)malloc(lenOfPostfixString * sizeof(int));
 
     int postfixIndex = 0;
     int num = 0;
@@ -149,10 +149,10 @@ int evalPostfixString(char *postfixString)
 
 int main()
 {
-    char infix[256];
+    char infixString[256];
     printf("Enter the string: ");
-    scanf(" %[^\n]", infix);
-    char *postfixString = toPostfix(infix);
+    scanf(" %[^\n]", infixString);
+    char *postfixString = toPostfix(infixString);
 
     printf("Postfix: %s\n", postfixString);
     printf("Result: %d\n", evalPostfixString(postfixString));

@@ -1,6 +1,6 @@
 struct Stack
 {
-    char *arr;
+    int *arr;
     int size;
     int top;
 };
