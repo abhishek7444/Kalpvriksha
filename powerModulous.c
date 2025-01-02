@@ -4,12 +4,12 @@
 int calculate_ans(int B,int N,int M)
 {
     if(N==0)
-    return 1;
+        return 1;
     if(N==1)
-    return B%M;
+        return B%M;
     int result=calculate_ans(B,N/2,M)%M;
     if(N%2==0)
-    return (result*result)%M;
+        return (result*result)%M;
     return (B % M * result * result % M) % M;
 }
 int main()
