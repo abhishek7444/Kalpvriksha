@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<stdlib.h>
+void swap(int* a , int * b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int findPivot(int * array, int low , int high)
+{
+    int pivot = array[low];
+    int i = low;
+    int j = high;
+    while(i<j)
+    {
+        while(i<=high && array[i]<=pivot) i++;
+        while(j>=low && array[j]>pivot) j--;
+        
+        if(i<j)
+        {
+            swap(&array[i],&array[j]);
+        }
+    }
+    swap(&array[low],&array[j]);
+    
+    
+    return j;
+    
+    
+    
+}
+void quickSort(int* array , int low, int high)
+{
+    if(low < high)
+    {
+        int partition = findPivot(array,low, high);
+        quickSort(array,low,partition-1);
+        quickSort(array,partition+1,high);
+    }
+}
+int main()
+{
+    int size;
+    printf("Enter the size of array: ");
+    scanf("%d",&size);
+    getchar();
+    int *array = (int*) malloc(sizeof(int)*size);
+    printf("Enter the elements: ");
+    for(int i =0;i<size;i++)
+    {
+       scanf("%d",&array[i]);
+    }
+    int low = 0;
+    int high = size-1;
+    
+    quickSort(array, low , high);
+    
+    for(int i =0;i<size;i++)
+    {
+        printf("%d ",array[i]);
+    }
+    
+    return 0;
+
+}
