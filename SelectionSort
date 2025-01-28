@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<stdlib.h>
+void swap(int *a , int* b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+void selectionSort(int * array, int size)
+{
+    for(int i =0;i<size;i++)
+    {
+        int minimum = i;
+        for(int j = i+1 ; j < size; j++)
+        {
+            if(array[j]<array[minimum])
+            {
+                minimum = j;
+            }
+        }
+        swap(&array[i],&array[minimum]);
+
+    }
+}
+int main()
+{
+    int size;
+    printf("Enter the size of Array : ");
+    scanf("%d",&size);
+    getchar();
+    int *array = (int*) malloc(sizeof(int)*size);
+    printf("Enter the elements: ");
+    for(int i =0;i<size;i++)
+    {
+       scanf("%d",&array[i]);
+    }
+
+    selectionSort(array,size);
+    for(int i =0;i<size;i++)
+    {
+        printf("%d ",array[i]);
+    }
+}
