@@ -113,6 +113,11 @@ Node* sortList(Node* head) {
 int main()
 {
     int size;
+    if(size==0)
+    {
+        printf("Enter the valid Size");
+        return 0;
+    }
     Node* head = NULL;
     printf("Enter the size of LinkedList: ");
     scanf("%d",&size);
