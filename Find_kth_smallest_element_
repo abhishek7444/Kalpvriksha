@@ -1,0 +1,164 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    int val;
+    struct Node* next;
+}Node;
+void printLinkedList(Node* head)
+{
+    Node* temp = head;
+    while(temp!=NULL)
+    {
+        printf("%c",temp->val);
+        temp  = temp-> next;
+    }
+}
+Node* createNode(int data)
+{
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    newNode->val = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void insert(Node** head, char data)
+{
+    Node* newNode = createNode(data);
+    if(*head==NULL)
+    {
+        *head = newNode;
+    }
+    else
+    {
+        newNode->next = *head;
+        *head = newNode;
+    }
+}
+Node* findMid(Node* head) {
+    Node* slow = head;
+    Node* fast = head -> next;
+    
+    while(fast != NULL && fast -> next != NULL) {
+        slow = slow -> next;
+        fast = fast -> next -> next; 
+    }
+    return slow;
+}
+
+Node* merge(Node* left , Node* right){
+
+    if(left==NULL){
+        return right;
+    }
+
+    if(right==NULL){
+
+         return right;
+    }
+    
+    Node* ans = createNode(0);
+    Node* temp = ans;
+
+
+    while(left!=NULL && right!=NULL){
+
+        if(left->val < right->val){
+            temp->next = left;
+            temp = left;
+            left = left->next;
+        }
+        else{
+
+            temp->next=right;
+            temp = right;
+            right=right->next;
+        }
+    }
+
+
+      while(left != NULL) {
+        temp -> next = left;
+        temp = left;
+        left = left -> next;
+    }
+    
+    while(right != NULL) {
+        temp -> next = right;
+        temp = right;
+        right = right -> next;
+    }
+
+    ans  = ans->next;
+    return ans;
+}
+
+Node* sortList(Node* head) {
+    if(head==NULL || head->next==NULL){
+
+        return head;
+    }
+    Node* mid = findMid(head);
+
+    Node* left = head;
+    Node* right = mid->next;
+    mid->next = NULL;
+
+    left = sortList(left);
+    right = sortList(right);
+
+    Node* result = merge(left, right);
+    return result;
+}
+int main()
+{
+    int size;
+    if(size==0)
+    {
+        printf("Enter the valid Size");
+        return 0;
+    }
+    Node* head = NULL;
+    printf("Enter the size of LinkedList: ");
+    scanf("%d",&size);
+    getchar();
+    int *array = (int*) malloc(sizeof(int)*size);
+    printf("Enter the elements: ");
+    for(int i =0;i<size;i++)
+    {
+       scanf("%d",&array[i]);
+    }
+    
+    for(int i = size-1;i>=0;i--)
+    {
+        insert(&head,array[i]);
+    }
+    getchar();
+    int k;
+    printf("Enter the value of K :");
+    scanf("%d",&k);
+    if(k>size)
+    {
+        printf("Enter the vaild value of K: ");
+        return 0;
+    }
+    head = sortList(head);
+    
+    int count = 1;
+    
+    Node* temp = head;
+    
+    while(temp!=0)
+    {
+        if(count==k)
+        {
+            printf("%d",temp->val);
+            break;
+        }
+        count++;
+        temp = temp->next;
+    }
+    
+    
+
+}
